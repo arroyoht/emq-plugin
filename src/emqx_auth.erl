@@ -60,9 +60,9 @@ load(Env) ->
 %%--------------------------------------------------------------------
 
 on_client_connect(ConnInfo = #{clientid := ClientId}, Props, _Env) ->
-    ConnInfo#{expiry_interval := 60},
+    ConnInfo2 = ConnInfo#{expiry_interval := 60},
     io:format("Client(~s) connect, ConnInfo: ~p, Props: ~p~n",
-              [ClientId, ConnInfo, Props]),
+              [ClientId, ConnInfo2, Props]),
     {ok, Props}.
 
 on_client_connack(ConnInfo = #{clientid := ClientId}, Rc, Props, _Env) ->
@@ -104,9 +104,9 @@ on_message_publish(Message = #message{topic = <<"$SYS/", _/binary>>}, _Env) ->
     {ok, Message};
 
 on_message_publish(Message, _Env) ->
-    Message#{topic => "/online"},
-    io:format("Publish ~s~n", [emqx_message:format(Message)]),
-    {ok, Message}.
+    Message2 = Message#message{topic = "online"},
+    io:format("Publish ~s~n", [emqx_message:format(Message2)]),
+    {ok, Message2}.
 
 on_message_dropped(#message{topic = <<"$SYS/", _/binary>>}, _By, _Reason, _Env) ->
     ok;
