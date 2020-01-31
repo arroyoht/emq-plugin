@@ -60,6 +60,7 @@ load(Env) ->
 %%--------------------------------------------------------------------
 
 on_client_connect(ConnInfo = #{clientid := ClientId}, Props, _Env) ->
+    ConnInfo = #{expiry_interval => 60},
     io:format("Client(~s) connect, ConnInfo: ~p, Props: ~p~n",
               [ClientId, ConnInfo, Props]),
     {ok, Props}.
